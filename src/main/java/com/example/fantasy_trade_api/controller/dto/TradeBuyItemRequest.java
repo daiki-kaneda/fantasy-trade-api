@@ -1,5 +1,8 @@
 package com.example.fantasy_trade_api.controller.dto;
 
-public record TradeBuyItemRequest(Long itemId, int amount) {
-    
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+public record TradeBuyItemRequest(@NotNull Long itemId, @Positive int amount) {
+
 }

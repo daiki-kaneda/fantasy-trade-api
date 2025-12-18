@@ -1,5 +1,7 @@
 package com.example.fantasy_trade_api.controller.dto;
 
-public record PlayerLoginRequest(String idToken) {
-    
+import jakarta.validation.constraints.NotNull;
+
+public record PlayerLoginRequest(@NotNull String idToken) {
+
 }
