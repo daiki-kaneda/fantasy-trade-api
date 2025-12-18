@@ -38,7 +38,7 @@ public class FirebaseAuthFilter extends OncePerRequestFilter {
 
     private String resolveToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if (token.startsWith("Bearer ")) {
+        if (token!=null && token.startsWith("Bearer ")) {
             return token.substring(7);
         } else {
             return null;
