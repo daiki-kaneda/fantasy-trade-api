@@ -1,7 +1,11 @@
 package com.example.fantasy_trade_api.controller.advice;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -11,6 +15,19 @@ import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationErrorResponse> handleValidationError(MethodArgumentNotValidException e) {
+        var details = new HashMap<String, String>();
+        e.getBindingResult().getFieldErrors()
+                .forEach(fe -> details.put(fe.getField(), fe.getDefaultMessage()));
+
+        var error = new ValidationErrorResponse("VALIDATION_ERROR", "入力に不備があります.", details);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+
+    }
+
     @ExceptionHandler(FirebaseAuthException.class)
     public ResponseEntity<ErrorResponse> handleAuthError(FirebaseAuthException e) {
         var error = new ErrorResponse("AUTH_ERROR", "認証に失敗しました" + e.getMessage());
@@ -42,5 +59,9 @@ public class GlobalExceptionHandler {
     }
 
     public record ErrorResponse(String code, String message) {
+    }
+
+    public record ValidationErrorResponse(String code, String message, Map<String, String> details) {
+
     }
 }
