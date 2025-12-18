@@ -3,6 +3,7 @@ package com.example.fantasy_trade_api.service;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.fantasy_trade_api.controller.dto.PlayerLoginRequest;
 import com.example.fantasy_trade_api.controller.dto.PlayerLoginResponse;
@@ -16,9 +17,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly=true)
 public class AuthService {
     private final PlayerRepository playerRepository;
 
+    @Transactional
     public PlayerLoginResponse loginOrSignUp(PlayerLoginRequest request) throws FirebaseAuthException {
         String idToken = request.idToken();
         FirebaseToken token = FirebaseAuthDriver.verifyToken(idToken);
