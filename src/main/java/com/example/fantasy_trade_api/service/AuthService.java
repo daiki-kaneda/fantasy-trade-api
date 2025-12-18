@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly=true)
+@Transactional(readOnly = true)
 public class AuthService {
     private final PlayerRepository playerRepository;
 
@@ -34,7 +34,8 @@ public class AuthService {
                     player.get().getUid(),
                     "Login Success!");
         } else {
-            Player newPlayer = Player.create(uid, token.getName());
+            String name = token.getName() == null ? "Guest" : token.getName();
+            Player newPlayer = Player.create(uid, name);
             playerRepository.save(newPlayer);
             return new PlayerLoginResponse(
                     newPlayer.getUid(),
