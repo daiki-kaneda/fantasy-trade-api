@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleInternalError(EntityNotFoundException e) {
+    public ResponseEntity<ErrorResponse> handleGeneralError(Exception e) {
         var error = new ErrorResponse("INTERNAL_ERROR", "予期せぬエラーが発生しました");
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
