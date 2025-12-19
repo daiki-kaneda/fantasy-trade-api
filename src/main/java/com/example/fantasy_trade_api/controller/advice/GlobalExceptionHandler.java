@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralError(Exception e) {
-        var error = new ErrorResponse("INTERNAL_ERROR", "予期せぬエラーが発生しました");
+        var error = new ErrorResponse("INTERNAL_ERROR", "予期せぬエラーが発生しました.("+e.getMessage()+")");
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(error);
