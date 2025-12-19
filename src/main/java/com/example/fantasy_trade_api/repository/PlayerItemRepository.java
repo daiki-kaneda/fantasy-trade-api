@@ -1,5 +1,6 @@
 package com.example.fantasy_trade_api.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,9 @@ public interface PlayerItemRepository extends JpaRepository<PlayerItem, Long> {
         public Optional<PlayerItem> findByPlayerIdAndItemId(
                         @Param("uid") String uid,
                         @Param("itemId") Long itemId);
+
+        @Query("SELECT pi FROM PlayerItem pi " +
+                        "JOIN FETCH pi.item " +
+                        "WHERE pi.player.uid = :uid")
+        public List<PlayerItem> findByPlayerId(@Param("uid") String uid);
 }
